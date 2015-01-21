@@ -1,33 +1,35 @@
 var express = require("express"),
-  http = require("http"),
   app = express();
 
-  app.get("/", function (req, res) {
-      res.sendfile('./hello.html');
+  app.get("/", function (req,res) {
+    res.send("hello universe!");
   });
 
-  var inspireArr = ["The answer to life the universe and everthing is 42",
-     "Quick brown fox jumped over the lazy dog"];
+  var quotes = [
+    "The answer to life the universe and everything is 42.",
+    "I must not fear. Fear is the mind-killer. Fear is the little-death...",
+    "Life can be so sweet on the sunny side of the street"
+  ];
 
-  app.get("/inspiration", function (req, res) {
-      var randReturn = Math.floor(Math.random()*inspireArr.length);
-      res.send(inspireArr[randReturn]);
+  app.get("/inspiration", function (req, res){
+    var randomIndex = Math.floor(Math.random()*quotes.length);
+    res.send(quotes[randomIndex]);
   });
 
-  function JokeObj (s1, p1) {
-      this.setup = s1;
-      this.punchline = p1;
-  }
-  var jokeArr = [new JokeObj("abc ?", "xyz"),
-    new JokeObj("mno ?", "def"),
-    new JokeObj("pqr ?", "uvw") ];
+  var jokes = [
+    { setup: "What did the Zen buddhist say to the hotdog vendor?",
+      punchline: "Make me one with everything."},
+    { setup: "What did the mushroom say when asked what she looked for in a date?",
+      punchline: "A fun guy."},
+    { setup: "How many tickles does it take to make an octupus laugh?",
+      punchline: "Ten Tickles"}
+  ];
 
-  app.get("/joke", function (req, res) {
-      var randReturn = Math.floor(Math.random()*jokeArr.length);
-      res.json(jokeArr[randReturn]);
+  app.get("/joke", function (req, res){
+    var randomIndex = Math.floor(Math.random()*jokes.length);
+    res.send(jokes[randomIndex]);
   });
 
   console.log("server starting. available at http://localhost:3000");
-  http.createServer(app).listen(process.env.PORT || 3000);
-  //app.listen(3000);
+  app.listen(3000);
 
